@@ -87,18 +87,73 @@ def predict_disease():
             return
         
         age = float(entry_age.get())
-        sex = 1 if entry_gender.get().lower() == 'male' else 0
+        if age < 0 or age > 120:
+            messagebox.showerror("Input Error", "Age must be between 0 and 120.")
+            return
+        
+        sex = entry_gender.get().lower()
+        if sex not in ['male', 'female']:
+            messagebox.showerror("Input Error", "Gender must be 'male' or 'female'.")
+            return
+        sex = 1 if sex == 'male' else 0
+        
         cp = int(entry_cp.get())
+        if cp < 0 or cp > 3:
+            messagebox.showerror("Input Error", "Chest Pain Type (cp) must be between 0 and 3.")
+            return
+        
         trestbps = float(entry_trestbps.get())
+        if trestbps < 50 or trestbps > 200:
+            messagebox.showerror("Input Error", "Resting Blood Pressure (trestbps) must be between 50 and 200.")
+            return
+        
         chol = float(entry_chol.get())
-        fbs = 1 if entry_fbs.get().lower() == 'true' else 0
+        if chol < 100 or chol > 600:
+            messagebox.showerror("Input Error", "Cholesterol (chol) must be between 100 and 600.")
+            return
+        
+        fbs = entry_fbs.get().lower()
+        if fbs not in ['true', 'false']:
+            messagebox.showerror("Input Error", "Fasting Blood Sugar (fbs) must be 'true' or 'false'.")
+            return
+        fbs = 1 if fbs == 'true' else 0
+        
         restecg = int(entry_restecg.get())
+        if restecg not in [0, 1]:
+            messagebox.showerror("Input Error", "Resting Electrocardiographic (restecg) must be 0 or 1.")
+            return
+        
         thalach = float(entry_thalach.get())
-        exang = 1 if entry_exang.get().lower() == 'true' else 0
+        if thalach < 50 or thalach > 220:
+            messagebox.showerror("Input Error", "Max Heart Rate (thalach) must be between 50 and 220.")
+            return
+        
+        exang = entry_exang.get().lower()
+        if exang not in ['true', 'false']:
+            messagebox.showerror("Input Error", "Exercise Induced Angina (exang) must be 'true' or 'false'.")
+            return
+        exang = 1 if exang == 'true' else 0
+        
         oldpeak = float(entry_oldpeak.get())
+        if oldpeak < 0 or oldpeak > 4:
+            messagebox.showerror("Input Error", "Old Peak (oldpeak) must be between 0 and 4.")
+            return
+        
         slope = int(entry_slope.get())
+        if slope < 0 or slope > 3:
+            messagebox.showerror("Input Error", "Slope must be between 0 and 3.")
+            return
+        
         ca = int(entry_ca.get())
+        if ca not in [0, 1, 2]:
+            messagebox.showerror("Input Error", "Number of Major Vessels (ca) must be 0, 1, or 2.")
+            return
+        
         thal = int(entry_thal.get())
+        if thal < 1 or thal > 3:
+            messagebox.showerror("Input Error", "Thalassemia (thal) must be between 1 and 3.")
+            return
+        
     except ValueError:
         messagebox.showerror("Input Error", "Please enter valid numerical values.")
         return
@@ -112,12 +167,12 @@ def predict_disease():
     recommendation = get_recommendation(risk_score)
     # Show the prediction result
     messagebox.showinfo("Prediction Result", f"{name}, the predicted risk score of heart disease is: {risk_score:.2f}%.\n {recommendation}")
+
 # Create the main window for the GUI
 root = tk.Tk()
 root.title("Heart Disease Risk Prediction")
 
 # Create and place labels and entry widgets
-
 tk.Label(root, text="CSV File Path").grid(row=0, column=0, padx=10, pady=5)
 entry_file_path = tk.Entry(root, width=50)
 entry_file_path.grid(row=0, column=1, padx=10, pady=5)
@@ -154,7 +209,7 @@ tk.Label(root, text="Resting Electrocardiographic (restecg)(0/1)").grid(row=8, c
 entry_restecg = tk.Entry(root, width=50)
 entry_restecg.grid(row=8, column=1, padx=10, pady=5)
 
-tk.Label(root, text="Max Heart Rate (thalach) ").grid(row=9, column=0, padx=10, pady=5)
+tk.Label(root, text="Max Heart Rate (thalach)").grid(row=9, column=0, padx=10, pady=5)
 entry_thalach = tk.Entry(root, width=50)
 entry_thalach.grid(row=9, column=1, padx=10, pady=5)
 
